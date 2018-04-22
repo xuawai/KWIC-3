@@ -161,6 +161,7 @@ public class KWIC{
   public void executeInteractively(){
     LineStorageWrapper lines = new LineStorageWrapper();
     LineStorageWrapper shifts = new LineStorageWrapper();
+    Map<String, Integer> wordsIndexMapOriginal = new HashMap<>();
     Map<String, Integer> wordsIndexMap = new HashMap<>();
 
     Input input = new Input();
@@ -168,11 +169,11 @@ public class KWIC{
     lines.addObserver(shifter);
     Alphabetizer alphabetizer = new Alphabetizer();
     shifts.addObserver(alphabetizer);
-    WordsIndex wordsIndex = new WordsIndex(wordsIndexMap);
+    WordsIndex wordsIndex = new WordsIndex(wordsIndexMapOriginal, wordsIndexMap);
     lines.addObserver(wordsIndex);
     Output output = new Output();
 
-    System.out.println("Add, Delete, Index, Print, Quit");
+    System.out.println("Add, Delete, Original Index, Shifter Index, Print, Quit");
     Scanner sc = new Scanner(System.in);
     System.out.print("command->");
     String i = sc.nextLine();
@@ -191,6 +192,9 @@ public class KWIC{
         output.print(shifts);
       }
       if (i.equals("i")) {
+        output.printWordsIndexMap(wordsIndexMapOriginal);
+      }
+      if (i.equals("s")) {
         output.printWordsIndexMap(wordsIndexMap);
       }
       System.out.print("command->");
